@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Kredit Kartı Professional İdarəetmə</title>
     
     <link rel="apple-touch-icon" href="logo.png">
@@ -16,6 +16,11 @@
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; }
         select option { background-color: #1f2937; color: white; }
+        
+        /* Zoom-u tamamilə kəsmək üçün daxiletmə sahələrini 16px edirik */
+        input, select, textarea {
+            font-size: 16px !important;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white font-sans p-5">
@@ -55,21 +60,21 @@
             </div>
         </div>
 
-        <div id="paymentCalendar" class="bg-gray-800 p-5 rounded-2xl mb-6 border border-orange-500/20 hidden-element shadow-lg">
+        <div id="paymentCalendar" class="bg-gray-800 p-5 rounded-2xl mb-6 border border-orange-500/20 hidden-element shadow-lg text-left">
             <h2 class="text-[10px] font-bold mb-3 text-orange-400 uppercase tracking-widest flex items-center">
                 <span class="mr-2">📅</span> Taksit Ödəniş Cədvəli
             </h2>
             <div id="calendarList" class="space-y-2 max-h-40 overflow-y-auto pr-2 text-[11px]"></div>
         </div>
 
-        <div class="bg-gray-800 p-5 rounded-2xl mb-6 border border-gray-700 shadow-xl border-t-2 border-indigo-500">
+        <div class="bg-gray-800 p-5 rounded-2xl mb-6 border border-gray-700 shadow-xl border-t-2 border-indigo-500 text-left">
             <h2 class="text-sm font-bold mb-4 text-indigo-300 uppercase tracking-wider">Yeni Əməliyyat Əlavə Et</h2>
             <div class="space-y-3">
-                <input type="text" id="itemName" placeholder="Məhsul/Xidmət" class="w-full p-3 rounded-xl bg-gray-700/50 border border-gray-600 focus:border-indigo-500 outline-none transition text-sm text-white">
+                <input type="text" id="itemName" placeholder="Məhsul/Xidmət" class="w-full p-3 rounded-xl bg-gray-700/50 border border-gray-600 focus:border-indigo-500 outline-none transition text-white">
                 
                 <div class="grid grid-cols-2 gap-3">
-                    <input type="number" id="itemAmount" placeholder="Məbləğ" class="w-full p-3 rounded-xl bg-gray-700/50 border border-gray-600 focus:border-indigo-500 outline-none text-sm text-white">
-                    <select id="itemCategory" class="w-full p-3 rounded-xl bg-gray-700/50 border border-gray-600 outline-none text-sm text-white font-medium focus:border-indigo-500">
+                    <input type="number" id="itemAmount" placeholder="Məbləğ" class="w-full p-3 rounded-xl bg-gray-700/50 border border-gray-600 focus:border-indigo-500 outline-none text-white">
+                    <select id="itemCategory" class="w-full p-3 rounded-xl bg-gray-700/50 border border-gray-600 outline-none text-white font-medium focus:border-indigo-500">
                         <option value="" disabled selected>Kateqoriya</option>
                         <option value="Geyim alış-verişi">Geyim</option>
                         <option value="Elektronika">Elektronika</option>
@@ -87,13 +92,13 @@
                     </select>
                 </div>
 
-                <select id="paymentMethod" onchange="toggleInstallmentMenu()" class="w-full p-3 rounded-xl bg-gray-700/50 border border-gray-600 outline-none text-sm text-white font-medium focus:border-indigo-500">
+                <select id="paymentMethod" onchange="toggleInstallmentMenu()" class="w-full p-3 rounded-xl bg-gray-700/50 border border-gray-600 outline-none text-white font-medium focus:border-indigo-500">
                     <option value="single">Birdəfəlik</option>
                     <option value="installment">Taksitlə</option>
                 </select>
 
                 <div id="installmentContainer" class="hidden-element">
-                    <select id="installmentMonths" class="w-full p-3 rounded-xl bg-indigo-900/30 border border-indigo-500/30 outline-none text-sm text-white font-medium">
+                    <select id="installmentMonths" class="w-full p-3 rounded-xl bg-indigo-900/30 border border-indigo-500/30 outline-none text-white font-medium">
                         <option value="3">3 Ay</option>
                         <option value="6">6 Ay</option>
                         <option value="12">12 Ay</option>
@@ -107,8 +112,8 @@
             </div>
         </div>
 
-        <h2 class="text-xs font-bold mb-4 text-gray-500 uppercase tracking-[0.2em]">Əməliyyat Tarixçəsi</h2>
-        <div id="expenseList" class="space-y-4 pb-20"></div>
+        <h2 class="text-xs font-bold mb-4 text-gray-500 uppercase tracking-[0.2em] text-left">Əməliyyat Tarixçəsi</h2>
+        <div id="expenseList" class="space-y-4 pb-20 text-left"></div>
     </div>
 
     <script>
@@ -188,9 +193,9 @@
                 div.innerHTML = `
                     <div class="flex justify-between items-start">
                         <div class="flex-1">
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-2 text-left">
                                 <p class="font-bold text-gray-200 text-sm">${exp.name}</p>
-                                ${exp.fee > 0 ? `<span class="text-[8px] bg-red-900/30 text-red-400 px-1.5 py-0.5 rounded border border-red-800/30 uppercase">Fee</span>` : ''}
+                                ${exp.fee > 0 ? `<span class="text-[8px] bg-red-900/30 text-red-400 px-1.5 py-0.5 rounded border border-red-800/30 uppercase tracking-tighter">Fee</span>` : ''}
                             </div>
                             <p class="text-[10px] text-gray-500 mt-0.5 italic">${exp.category} • ${exp.date}</p>
                         </div>
@@ -250,7 +255,7 @@
             nameEl.value = ''; amountEl.value = ''; categoryEl.selectedIndex = 0;
         }
 
-            updateUI();
+        updateUI();
     </script>
 </body>
 </html>
